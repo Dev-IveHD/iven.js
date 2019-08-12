@@ -3,6 +3,9 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+notify:
+  webhooks:
+    -url: https://outlook.office.com/webhook/34b2db22-3c99-450c-99db-68b4b6fd30ca@461dad45-bcfc-49ad-aed1-067af5967de7/CircleCI/3154e8f5239b4db2a6e0d7b82e3c50da/c54ece34-482b-4325-9eb7-10e8b30d425d
 jobs:
   build:
     docker:
