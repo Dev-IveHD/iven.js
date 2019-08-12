@@ -2,6 +2,8 @@
 
 A modular, interactive Discord Bot realized in NodeJS.
 
+[![CircleCI](https://circleci.com/gh/ibveecnk/iven.js/tree/master.svg?style=svg)](https://circleci.com/gh/ibveecnk/iven.js/)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine.
