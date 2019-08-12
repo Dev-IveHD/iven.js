@@ -1,0 +1,14 @@
+{
+  "name": "iven.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.0.0",
+    "fs": "0.0.1-security",
+    "ms": "^2.1.2",
+    "opusscript": "0.0.6",
+    "require.js": "^1.0.0",
+    "ytdl-core": "^0.29.3"
+  }
+}

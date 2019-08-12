@@ -1,0 +1,7 @@
+node_modules
+*.env
+log.txt
+.vs
+.idea
+.jshintrc
+*.cmd
