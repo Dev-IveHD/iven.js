@@ -10,5 +10,9 @@
     "opusscript": "0.0.6",
     "require.js": "^1.0.0",
     "ytdl-core": "^0.29.3"
+  },
+  "scripts": {
+    "run": "node index.js",
+    "test": "node tests.js"
   }
 }
