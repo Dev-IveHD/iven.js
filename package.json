@@ -2,6 +2,16 @@
   "name": "iven.js",
   "version": "1.0.0",
   "main": "index.js",
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "nyc": "^14.1.1"
+  },
   "dependencies": {
     "discord.js": "^11.5.1",
     "dotenv": "^8.0.0",
@@ -13,6 +23,8 @@
   },
   "scripts": {
     "run": "node index.js",
-    "test": "node tests.js"
+    "pretest": "npm run lint",
+    "test": "echo 'tests coming soon!'",
+    "lint": "./node_modules/.bin/eslint ."
   }
 }
