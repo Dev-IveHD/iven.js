@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2.1
+orbs:
+  linter: reactioncommerce/linter@0.0.1
 
 jobs:
   build:
@@ -42,9 +44,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
   test:
-    version: 2.1
-    orbs:
-      linter: reactioncommerce/linter@0.0.1
     docker:
       - image: circleci/node:8.12
 
