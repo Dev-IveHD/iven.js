@@ -30,11 +30,12 @@ Install dependencies
 $ npm install
 ```
 
+Install FFMPEG for your os (if not installed prefix music.js `commands/music.js` with `!`
+
 Change token and prefix in botconfig.json or process.env (`Params: TOKEN | PREFIX`)
 
 ```
 $ vi botconfig.json
-
 ```
 
 Run the bot
