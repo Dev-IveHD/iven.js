@@ -34,7 +34,9 @@ module.exports.run = (bot, message, args) => {
 
   message.delete();
   message.channel.send(`:white_check_mark: ${user} was successfully poked`)
-    .then((m) => m.delete(10000));
+    .then((m) => m.delete(5000));
+
+  return true;
 };
 
 module.exports.help = {

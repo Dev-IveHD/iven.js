@@ -1,3 +1,6 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable no-console */
 /**
  * @Author: Iven Beck
  * @Date:   2019-05-25T16:17:50+02:00
@@ -6,28 +9,56 @@
  * @Last modified time: 2019-08-07T20:19:30+02:00
  */
 
-// s
 /*
  * Copyright (c) 2019. Iven Beck
  * You are free to use this code if you give it as a source.
  */
 
 const discord = require('discord.js');
+const fs = require('fs');
 const botconfig = require('./botconfig.json');
 
 const client = new discord.Client({
   disableEveryone: true,
 });
-const fs = require('fs');
 require('dotenv').config();
 
 const token = process.env.TOKEN || botconfig.token;
 const prefix = process.env.PREFIX || botconfig.prefix;
 
-const commandcollection = client.commands = new discord.Collection();
+function formatLogMessage(message) {
+  const date = new Date();
+  let hours = date.getHours()
+    .toString();
+  let minutes = date.getMinutes()
+    .toString();
+  let seconds = date.getSeconds()
+    .toString();
+  let milliseconds = date.getMilliseconds()
+    .toString();
+
+  if (hours === '0') hours = '00';
+  else if (hours.length < 2) hours = `0${hours}`;
+
+  if (minutes === '0') minutes = '00';
+  else if (minutes.length < 2) minutes = `0${minutes}`;
+
+  if (seconds === '0') seconds = '00';
+  else if (seconds.length < 2) seconds = `0${seconds}`;
+
+  if (milliseconds === '0') milliseconds = '00';
+  else if (milliseconds.length < 2) milliseconds = `00${milliseconds}`;
+  else if (milliseconds.length < 3) milliseconds = `0${milliseconds}`;
+
+  return `[${hours}:${minutes}:${seconds}:${milliseconds}]  |  ${message}\n`;
+}
+
+client.commands = new discord.Collection();
+const commandcollection = client.commands;
 
 fs.writeFile('./log.txt', formatLogMessage('Log started\n'), (err) => {
   if (err) return console.log(`[ERROR] ${err}`);
+  return true;
 });
 
 // Initialize all commands in commands directory
@@ -94,7 +125,7 @@ client.login(token)
 
 client.on('error', (err) => {
   // Normally only occurs on Hibernate --> Can be ignored because it auto reconnects
-  if (err.error.errno == 'EHOSTUNREACH' || err.error.errno == '') return;
+  if (err.error.errno === 'EHOSTUNREACH' || err.error.errno === '') return;
   console.error(err.error);
 });
 
@@ -103,32 +134,5 @@ client.on('debug', info => {
   console.log(info);
 });
 */
-
-function formatLogMessage(message) {
-  const date = new Date();
-  let hours = date.getHours()
-    .toString();
-  let minutes = date.getMinutes()
-    .toString();
-  let seconds = date.getSeconds()
-    .toString();
-  let milliseconds = date.getMilliseconds()
-    .toString();
-
-  if (hours === '0') hours = '00';
-  else if (hours.length < 2) hours = `0${hours}`;
-
-  if (minutes === '0') minutes = '00';
-  else if (minutes.length < 2) minutes = `0${minutes}`;
-
-  if (seconds === '0') seconds = '00';
-  else if (seconds.length < 2) seconds = `0${seconds}`;
-
-  if (milliseconds === '0') milliseconds = '00';
-  else if (milliseconds.length < 2) milliseconds = `00${milliseconds}`;
-  else if (milliseconds.length < 3) milliseconds = `0${milliseconds}`;
-
-  return `[${hours}:${minutes}:${seconds}:${milliseconds}]  |  ${message}\n`;
-}
 
 module.exports.commandcollection = commandcollection;

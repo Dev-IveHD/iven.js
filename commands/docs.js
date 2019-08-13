@@ -10,7 +10,7 @@
 const discord = require('discord.js');
 
 
-module.exports.run = (client, msg, args) => {
+module.exports.run = (client, msg) => {
   const embed = new discord.RichEmbed({
     title: 'Docs',
     description: 'You can find the bots GitLab repository [here](https://gitlab.com/disbots/iven.js).',

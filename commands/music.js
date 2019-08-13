@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /**
  * @Author: Iven Beck
  * @Date:   2019-05-26T21:04:13+02:00
@@ -7,7 +8,6 @@
  */
 
 
-const discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
 const queue = {};
@@ -25,6 +25,20 @@ const queue = {};
 // TODO: Add max queue length
 
 /* jshint ignore:start */ // because it cant handle async/await
+
+function addEndListener(dispatcher, connection, msg) {
+  dispatcher.once('end', () => {
+    if (queue[msg.guild.id][0]) {
+      dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
+        filter: 'audioonly',
+      }));
+      addEndListener(dispatcher, connection);
+    } else {
+      connection.disconnect();
+    }
+  });
+}
+
 module.exports.run = async (client, msg, args) => {
   if (!args[0]) return;
 
@@ -46,9 +60,9 @@ module.exports.run = async (client, msg, args) => {
           .then((connection) => {
             const dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
               filter: 'audioonly',
-              highWaterMark: 1 << 26,
+              highWaterMark: 60000000,
             }));
-            addEndListener(dispatcher, connection);
+            addEndListener(dispatcher, connection, msg);
           });
       }
       break;
@@ -56,17 +70,20 @@ module.exports.run = async (client, msg, args) => {
     case 'queue':
     case 'q':
 
-      const splitQueue = queue[msg.guild.id] ? queue[msg.guild.id].toString()
-        .split(',') : null;
-
       if (queue[msg.guild.id]) {
         const rawQueue = queue[msg.guild.id];
         let formattedQueue = '';
 
-        for (let i = 0; i < rawQueue.length; i++) {
+        for (let i = 0; i < rawQueue.length; i + 1) {
+          // needs to be improved!
+          // eslint-disable-next-line no-await-in-loop
           const songInfo = await YTDL.getInfo(rawQueue[i]);
-          let { title } = songInfo.player_response.videoDetails;
-          let { author } = songInfo.player_response.videoDetails;
+          let {
+            title,
+          } = songInfo.player_response.videoDetails;
+          let {
+            author,
+          } = songInfo.player_response.videoDetails;
 
           if (title.length > 60) {
             title = title.substr(0, 60);
@@ -95,18 +112,6 @@ module.exports.run = async (client, msg, args) => {
     default:
       msg.reply('Unknown subcommand');
   }
-  addEndListener = (dispatcher, connection) => {
-    dispatcher.once('end', () => {
-      if (queue[msg.guild.id][0]) {
-        dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
-          filter: 'audioonly',
-        }));
-        addEndListener(dispatcher, connection);
-      } else {
-        connection.disconnect();
-      }
-    });
-  };
 };
 /* jshint ignore:end */
 

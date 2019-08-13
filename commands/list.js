@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-case-declarations */
 /**
  * @Author: Iven Beck
  * @Date:   2019-05-25T16:39:13+02:00
@@ -10,12 +13,12 @@
 const discord = require('discord.js');
 const fs = require('fs');
 
-const list_types = ['intro'];
+const ListTypes = ['intro'];
 
 module.exports.run = (client, message, args) => {
   if (!args[0]) {
     let subliststr = '';
-    list_types.forEach((e) => {
+    ListTypes.forEach((e) => {
       subliststr += `${e}\n`;
     });
 

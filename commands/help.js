@@ -13,9 +13,9 @@ const botconfig = require('../botconfig');
 module.exports.run = (client, msg, args) => {
   let helpstring = '';
   const commands = index.commandcollection;
-  const prefix = process.env.PREFIX || prefix;
+  const prefix = process.env.PREFIX || botconfig.prefix;
   const empty = ' ';
-  const assocStr = ' ' + '>>' + ' ';
+  const assocStr = ' >> ';
 
   if (args.length === 0) {
     commands.forEach((c) => {
@@ -54,7 +54,7 @@ module.exports.run = (client, msg, args) => {
       const desc = (searchedcmd.help.description ? searchedcmd.help.description : 'UNDEFINED');
       const syntax = (searchedcmd.help.syntax ? searchedcmd.help.syntax : 'UNDEFINED');
 
-      const helpstring = '```'
+      helpstring = '```'
         + `Help for '${prefix}${searchedcmd.help.name}'\n`
         + 'Info: [] = optional, {} = obligatory\n\n'
         + `Required Perms: ${perm}\n\n`
@@ -68,6 +68,7 @@ module.exports.run = (client, msg, args) => {
   } else if (args.length > 1) {
     msg.channel.send(`Invalid Syntax: Use \`${prefix}help help\` to see the syntax`);
   }
+  return true;
 };
 
 module.exports.help = {
