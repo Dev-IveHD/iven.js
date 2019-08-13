@@ -26,6 +26,6 @@
     "run": "node index.js",
     "pretest": "npm run lint",
     "test": "echo 'tests coming soon!'",
-    "lint": "node ./node_modules/eslint/bin/eslint.js . --ext .js --fix"
+    "lint": "eslint . --ext .js --fix"
   }
 }
