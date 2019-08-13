@@ -42,6 +42,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
   test:
+    version: 2.1
     orbs:
       linter: reactioncommerce/linter@0.0.1
     docker:
