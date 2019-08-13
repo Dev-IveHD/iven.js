@@ -25,7 +25,6 @@
   "scripts": {
     "run": "node index.js",
     "pretest": "npm run lint",
-    "test": "echo 'tests coming soon!'",
-    "lint": "eslint . --ext .js --fix"
+    "test": "echo 'tests coming soon!'"
   }
 }
