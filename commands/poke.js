@@ -7,42 +7,39 @@
  */
 
 
-
-const discord = require("discord.js");
+const discord = require('discord.js');
 
 module.exports.run = (bot, message, args) => {
-  let user = message.guild.member(message.mentions.users.first());
-  if (!user) return message.channel.send("Error: `User not found`");
+  const user = message.guild.member(message.mentions.users.first());
+  if (!user) return message.channel.send('Error: `User not found`');
 
   args.shift();
 
-  let text = args.join(" ");
+  const text = args.join(' ');
 
   if (!args[1]) {
     user.send(new discord.RichEmbed()
-      .setColor("#FFFF00")
-      .setTitle(`:point_right::skin-tone-5: STUPS`)
+      .setColor('#FFFF00')
+      .setTitle(':point_right::skin-tone-5: STUPS')
       .setDescription(`${user}, you have been poked!`)
-      .addField(`By`, message.author)
-    );
+      .addField('By', message.author));
   } else {
     user.send(new discord.RichEmbed()
-      .setColor("#FFFF00")
-      .setTitle(`:point_right::skin-tone-5: STUPS`)
+      .setColor('#FFFF00')
+      .setTitle(':point_right::skin-tone-5: STUPS')
       .setDescription(`${user}, you have been poked!`)
-      .addField(`By`, message.author)
-      .addField(`Message`, text)
-    );
+      .addField('By', message.author)
+      .addField('Message', text));
   }
 
   message.delete();
   message.channel.send(`:white_check_mark: ${user} was successfully poked`)
-    .then(m => m.delete(10000));
+    .then((m) => m.delete(10000));
 };
 
 module.exports.help = {
-  name: "poke",
+  name: 'poke',
   description: "Pokes a user, so you don't need to dm them",
-  perms: "",
-  syntax: "poke {mention} [message]"
+  perms: '',
+  syntax: 'poke {mention} [message]',
 };

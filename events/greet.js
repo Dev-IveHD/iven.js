@@ -7,32 +7,29 @@
  */
 
 
+const discord = require('discord.js');
 
-let discord = require("discord.js");
-
-module.exports.event = bot => {
-
-  bot.on("guildMemberAdd", member => {
-
-    var autorole = member.guild.roles.find(r => r.name === "Member");
+module.exports.event = (bot) => {
+  bot.on('guildMemberAdd', (member) => {
+    const autorole = member.guild.roles.find((r) => r.name === 'Member');
     if (autorole) member.addRole(autorole);
 
-    let servericon = member.guild.iconURL;
+    const servericon = member.guild.iconURL;
     member.send('', new discord.RichEmbed()
       .setColor(0x29B6F6)
       .setThumbnail(servericon)
       .setDescription(`Welcome ${member} to`)
-      .addField("Server", member.guild)
-      .addField("Owner", member.guild.owner));
+      .addField('Server', member.guild)
+      .addField('Owner', member.guild.owner));
 
-    let joinembed = new discord.RichEmbed()
-      .setDescription("Join")
-      .setColor("#ff7700")
-      .addField("User", `${member} with ID: ${member.id}`)
+    const joinembed = new discord.RichEmbed()
+      .setDescription('Join')
+      .setColor('#ff7700')
+      .addField('User', `${member} with ID: ${member.id}`)
       .setFooter(bot.user.username, bot.user.displayAvatarURL)
       .setTimestamp();
 
-    let logChannel = member.guild.channels.find(channel => channel.name === "logs");
+    const logChannel = member.guild.channels.find((channel) => channel.name === 'logs');
     if (logChannel) logChannel.send(joinembed);
   });
 };

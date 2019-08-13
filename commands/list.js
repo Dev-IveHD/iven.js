@@ -7,55 +7,51 @@
  */
 
 
+const discord = require('discord.js');
+const fs = require('fs');
 
-let discord = require("discord.js");
-let fs = require("fs");
-
-let list_types = ["intro"];
+const list_types = ['intro'];
 
 module.exports.run = (client, message, args) => {
   if (!args[0]) {
-
-    let subliststr = "";
-    list_types.forEach(e => {
-      subliststr += e + "\n";
+    let subliststr = '';
+    list_types.forEach((e) => {
+      subliststr += `${e}\n`;
     });
 
-    let embed = new discord.RichEmbed({
-      title: "Lists",
-      description: "Here you can find possible sublists."
+    const embed = new discord.RichEmbed({
+      title: 'Lists',
+      description: 'Here you can find possible sublists.',
     });
     embed.setFooter(client.user.username, client.user.avatarURL);
-    embed.addField("Sublists", subliststr, true);
+    embed.addField('Sublists', subliststr, true);
     message.channel.send(embed);
     return;
   }
 
   switch (args[0].toLowerCase()) {
-
-    case "intro":
-      let embed = new discord.RichEmbed({
-        title: "Intro Songs",
-        description: "Here you can find Users that have custom join sounds."
+    case 'intro':
+      const embed = new discord.RichEmbed({
+        title: 'Intro Songs',
+        description: 'Here you can find Users that have custom join sounds.',
       });
 
-      let usersoundf = JSON.parse(fs.readFileSync("./files/usersounds.json", "utf8"));
+      const usersoundf = JSON.parse(fs.readFileSync('./files/usersounds.json', 'utf8'));
 
-      for (let key in usersoundf) {
-        embed.addField("ID: " + key, usersoundf[key]);
+      for (const key in usersoundf) {
+        embed.addField(`ID: ${key}`, usersoundf[key]);
       }
 
       message.channel.send(embed);
 
       break;
     default:
-      message.reply("This list does not exist!");
+      message.reply('This list does not exist!');
   }
-
 };
 module.exports.help = {
-  name: "list",
-  description: "Lists various bot-related things things",
-  perms: "",
-  syntax: "list {sublist}"
+  name: 'list',
+  description: 'Lists various bot-related things things',
+  perms: '',
+  syntax: 'list {sublist}',
 };

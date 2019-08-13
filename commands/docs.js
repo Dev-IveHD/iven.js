@@ -7,24 +7,23 @@
  */
 
 
-
-const discord = require("discord.js");
+const discord = require('discord.js');
 
 
 module.exports.run = (client, msg, args) => {
-  let embed = new discord.RichEmbed({
-    title: "Docs",
-    description: "You can find the bots GitLab repository [here](https://gitlab.com/disbots/iven.js)."
+  const embed = new discord.RichEmbed({
+    title: 'Docs',
+    description: 'You can find the bots GitLab repository [here](https://gitlab.com/disbots/iven.js).',
   });
   embed.setFooter(client.user.username, client.user.avatarURL);
-  embed.addField("Support Email", "`incoming+disbots-iven-js-10430829-issue-@incoming.gitlab.com`");
+  embed.addField('Support Email', '`incoming+disbots-iven-js-10430829-issue-@incoming.gitlab.com`');
 
   msg.channel.send(embed);
 };
 
 module.exports.help = {
-  name: "docs",
-  description: "Sends a link to the bots repository",
-  perms: "",
-  syntax: "docs"
+  name: 'docs',
+  description: 'Sends a link to the bots repository',
+  perms: '',
+  syntax: 'docs',
 };

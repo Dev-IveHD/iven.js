@@ -7,10 +7,10 @@
  */
 
 
-const discord = require("discord.js");
+const discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
-let queue = {};
+const queue = {};
 
 /* Should look like:
 {
@@ -24,13 +24,13 @@ let queue = {};
 // TODO: Make songdetails a parallel Array and fetch Info when track is being added not on request
 // TODO: Add max queue length
 
-/* jshint ignore:start */ //because it cant handle async/await
+/* jshint ignore:start */ // because it cant handle async/await
 module.exports.run = async (client, msg, args) => {
   if (!args[0]) return;
 
   switch (args[0]) {
-    case "play":
-    case "p":
+    case 'play':
+    case 'p':
 
       if (!args[1]) return;
       if (!msg.member.voiceChannel) return;
@@ -38,68 +38,68 @@ module.exports.run = async (client, msg, args) => {
 
       if (!queue[msg.guild.id]) queue[msg.guild.id] = [];
       queue[msg.guild.id].push(args[1]);
-      msg.reply("Your track is number `" + (queue[msg.guild.id].length) + "` in queue!");
+      msg.reply(`Your track is number \`${queue[msg.guild.id].length}\` in queue!`);
 
-      if (!msg.guild.voiceConnection) msg.member.voiceChannel.join()
-        .catch(e => msg.reply(e))
-        .then(connection => {
-          let dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
-            filter: "audioonly",
-            highWaterMark: 1 << 26
-          }));
-          addEndListener(dispatcher, connection);
-        });
+      if (!msg.guild.voiceConnection) {
+        msg.member.voiceChannel.join()
+          .catch((e) => msg.reply(e))
+          .then((connection) => {
+            const dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
+              filter: 'audioonly',
+              highWaterMark: 1 << 26,
+            }));
+            addEndListener(dispatcher, connection);
+          });
+      }
       break;
 
-    case "queue":
-    case "q":
+    case 'queue':
+    case 'q':
 
-      let splitQueue = queue[msg.guild.id] ? queue[msg.guild.id].toString()
-        .split(",") : null;
+      const splitQueue = queue[msg.guild.id] ? queue[msg.guild.id].toString()
+        .split(',') : null;
 
       if (queue[msg.guild.id]) {
+        const rawQueue = queue[msg.guild.id];
+        let formattedQueue = '';
 
-        let rawQueue = queue[msg.guild.id];
-        let formattedQueue = "";
-
-        for (var i = 0; i < rawQueue.length; i++) {
-          let songInfo = await YTDL.getInfo(rawQueue[i]);
-          let title = songInfo.player_response.videoDetails.title;
-          let author = songInfo.player_response.videoDetails.author;
+        for (let i = 0; i < rawQueue.length; i++) {
+          const songInfo = await YTDL.getInfo(rawQueue[i]);
+          let { title } = songInfo.player_response.videoDetails;
+          let { author } = songInfo.player_response.videoDetails;
 
           if (title.length > 60) {
             title = title.substr(0, 60);
-            title += "...";
+            title += '...';
           }
 
           if (author.length > 20) {
             author = author.substr(0, 20);
-            author += "...";
+            author += '...';
           }
 
           formattedQueue += `${i.toString(16)}: ${title} by ${author}\n`;
-        };
+        }
 
         if (formattedQueue.length > 2000) {
           formattedQueue = formattedQueue.substr(0, 1950);
-          formattedQueue += "...";
+          formattedQueue += '...';
         }
 
-        msg.reply("```" + formattedQueue + "```");
+        msg.reply(`\`\`\`${formattedQueue}\`\`\``);
       } else {
         msg.reply('Queue is empty');
       }
       break;
 
     default:
-      msg.reply("Unknown subcommand");
-
+      msg.reply('Unknown subcommand');
   }
   addEndListener = (dispatcher, connection) => {
     dispatcher.once('end', () => {
       if (queue[msg.guild.id][0]) {
         dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
-          filter: "audioonly"
+          filter: 'audioonly',
         }));
         addEndListener(dispatcher, connection);
       } else {
@@ -112,8 +112,8 @@ module.exports.run = async (client, msg, args) => {
 
 
 module.exports.help = {
-  name: "music",
-  description: "Plays a song in the current voicechannel",
-  perms: "",
-  syntax: "music {link} [volume]"
+  name: 'music',
+  description: 'Plays a song in the current voicechannel',
+  perms: '',
+  syntax: 'music {link} [volume]',
 };

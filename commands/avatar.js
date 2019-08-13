@@ -7,7 +7,6 @@
  */
 
 
-
 module.exports.run = (bot, msg, args) => {
   if (args.length === 0) {
     msg.channel.send(msg.author.avatarURL);
@@ -19,14 +18,14 @@ module.exports.run = (bot, msg, args) => {
       if (user.avatarURL) msg.channel.send(user.avatarURL);
       else if (user.defaultAvatarURL) msg.channel.send(user.defaultAvatarURL);
     } catch (e) {
-      msg.channel.send("Query Error: `Invalid User`");
+      msg.channel.send('Query Error: `Invalid User`');
     }
   }
 };
 
 module.exports.help = {
-  name: "avatar",
-  description: "Gets an users avatar and sends it",
-  perms: "",
-  syntax: "avatar [user]"
+  name: 'avatar',
+  description: 'Gets an users avatar and sends it',
+  perms: '',
+  syntax: 'avatar [user]',
 };

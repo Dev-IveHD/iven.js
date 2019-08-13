@@ -7,74 +7,72 @@
  */
 
 
-
-const index = require("../index");
-const botconfig = require("../botconfig");
+const index = require('../index');
+const botconfig = require('../botconfig');
 
 module.exports.run = (client, msg, args) => {
-  let helpstring = "";
-  let commands = index.commandcollection;
-  let prefix = process.env.PREFIX || prefix;
-  let empty = " ";
-  let assocStr = " " + ">>" + " ";
+  let helpstring = '';
+  const commands = index.commandcollection;
+  const prefix = process.env.PREFIX || prefix;
+  const empty = ' ';
+  const assocStr = ' ' + '>>' + ' ';
 
   if (args.length === 0) {
-    commands.forEach(c => {
-
+    commands.forEach((c) => {
       // Check and format if name/desc is too long
       let name;
-      let desc = (c.help.description ? c.help.description : "-");
+      let desc = (c.help.description ? c.help.description : '-');
 
       if (c.help.name.length > 20) {
         name = c.help.name.substr(0, 20);
-        name += "...";
+        name += '...';
       } else {
         name = c.help.name;
       }
       if (desc.length > 60) {
         desc = c.help.description.substr(0, 60);
-        desc += "...";
+        desc += '...';
       }
 
 
       // Generate empties
-      let count = 30 - (prefix.length + name.length);
+      const count = 30 - (prefix.length + name.length);
       helpstring += `${prefix}${name}${empty.repeat(count)}${assocStr}${desc}\n`;
     });
 
-    if (helpstring.length > 1950) return msg.channel.send("ERROR, pls contact owner!");
+    if (helpstring.length > 1950) return msg.channel.send('ERROR, pls contact owner!');
 
-    msg.channel.send("```" +
-      helpstring +
-      "\nFor more info on a command use " + prefix + "help [command]```");
+    msg.channel.send(`\`\`\`${
+      helpstring
+    }\nFor more info on a command use ${prefix}help [command]\`\`\``);
   }
 
   if (args.length === 1) {
     try {
-      let searchedcmd = commands.find(c => c.help.name === args[0]);
-      let perm = (searchedcmd.help.perms ? searchedcmd.help.perms : "none");
-      let desc = (searchedcmd.help.description ? searchedcmd.help.description : "UNDEFINED");
-      let syntax = (searchedcmd.help.syntax ? searchedcmd.help.syntax : "UNDEFINED");
+      const searchedcmd = commands.find((c) => c.help.name === args[0]);
+      const perm = (searchedcmd.help.perms ? searchedcmd.help.perms : 'none');
+      const desc = (searchedcmd.help.description ? searchedcmd.help.description : 'UNDEFINED');
+      const syntax = (searchedcmd.help.syntax ? searchedcmd.help.syntax : 'UNDEFINED');
 
-      let helpstring = "```" +
-        `Help for '${prefix}${searchedcmd.help.name}'\n` +
-        "Info: [] = optional, {} = obligatory\n\n" +
-        `Required Perms: ${perm}\n\n` +
-        `Description: ${desc}\n\n` +
-        `Syntax: ${prefix}${syntax}` +
-        "```";
+      const helpstring = '```'
+        + `Help for '${prefix}${searchedcmd.help.name}'\n`
+        + 'Info: [] = optional, {} = obligatory\n\n'
+        + `Required Perms: ${perm}\n\n`
+        + `Description: ${desc}\n\n`
+        + `Syntax: ${prefix}${syntax}`
+        + '```';
       msg.channel.send(helpstring);
     } catch (e) {
-      msg.channel.send("Error: `Invalid Search Query`\nTry listing available commands with `" + prefix + "help`");
+      msg.channel.send(`Error: \`Invalid Search Query\`\nTry listing available commands with \`${prefix}help\``);
     }
   } else if (args.length > 1) {
-    msg.channel.send("Invalid Syntax: Use `" + prefix + "help help` to see the syntax");
+    msg.channel.send(`Invalid Syntax: Use \`${prefix}help help\` to see the syntax`);
   }
 };
 
 module.exports.help = {
-  name: "help",
-  description: "Lists all commands with their descriptions and syntax",
-  perms: "",
-  syntax: "help [command]"
+  name: 'help',
+  description: 'Lists all commands with their descriptions and syntax',
+  perms: '',
+  syntax: 'help [command]',
 };

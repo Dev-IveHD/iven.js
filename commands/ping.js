@@ -8,32 +8,32 @@
 
 
 module.exports.run = (bot, msg, args) => {
-  let base = "Pong!\n";
+  let base = 'Pong!\n';
 
   if (msg.member.roles) {
-    let rolestring = "";
-    msg.member.roles.forEach(r => {
-      rolestring += r.name + ", ";
+    let rolestring = '';
+    msg.member.roles.forEach((r) => {
+      rolestring += `${r.name}, `;
     });
     rolestring = rolestring.substr(0, rolestring.length - 2);
-    base += "Roles: `" + rolestring + "`\n";
+    base += `Roles: \`${rolestring}\`\n`;
   }
 
   if (args.length > 0) {
-    let argsstring = "";
-    args.forEach(a => {
-      argsstring += a + ", ";
+    let argsstring = '';
+    args.forEach((a) => {
+      argsstring += `${a}, `;
     });
     argsstring = argsstring.substr(0, argsstring.length - 2);
-    base += "Args: `" + argsstring + "`\n";
+    base += `Args: \`${argsstring}\`\n`;
   }
 
   msg.channel.send(base);
 };
 
 module.exports.help = {
-  name: "ping",
-  description: "Tests if the bots I/O System is working",
-  perms: "",
-  syntax: "ping [text]"
+  name: 'ping',
+  description: 'Tests if the bots I/O System is working',
+  perms: '',
+  syntax: 'ping [text]',
 };

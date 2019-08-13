@@ -7,21 +7,18 @@
  */
 
 
+const discord = require('discord.js');
 
-let discord = require("discord.js");
-
-module.exports.event = bot => {
-
-  bot.on("guildMemberRemove", member => {
-
-    let leaveembed = new discord.RichEmbed()
-      .setDescription("Leave")
-      .setColor("#ff7700")
-      .addField("User", `${member} with ID: ${member.id}`)
+module.exports.event = (bot) => {
+  bot.on('guildMemberRemove', (member) => {
+    const leaveembed = new discord.RichEmbed()
+      .setDescription('Leave')
+      .setColor('#ff7700')
+      .addField('User', `${member} with ID: ${member.id}`)
       .setFooter(bot.user.username, bot.user.displayAvatarURL)
       .setTimestamp();
 
-    let logChannel = member.guild.channels.find(channel => channel.name === "logs");
+    const logChannel = member.guild.channels.find((channel) => channel.name === 'logs');
     if (logChannel) logChannel.send(leaveembed);
   });
 };
