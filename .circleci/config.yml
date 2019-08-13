@@ -43,6 +43,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+      - run:
+          name: TEST ENV VARS
+          command: echo ${MS_TEAMS_WEBHOOK_URL}
+
       - status_to_ms_teams/report:
           webhook_url: ${MS_TEAMS_WEBHOOK_URL}
 
