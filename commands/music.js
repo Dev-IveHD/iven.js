@@ -22,6 +22,7 @@ let queue = {};
 
 // TODO: Add a fn that checks for empty vc every 5-10 s to reduce res drain
 // TODO: Make songdetails a parallel Array and fetch Info when track is being added not on request
+// TODO: Add max queue length
 
 /* jshint ignore:start */ //because it cant handle async/await
 module.exports.run = async (client, msg, args) => {
@@ -38,7 +39,6 @@ module.exports.run = async (client, msg, args) => {
       if (!queue[msg.guild.id]) queue[msg.guild.id] = [];
       queue[msg.guild.id].push(args[1]);
       msg.reply("Your track is number `" + (queue[msg.guild.id].length) + "` in queue!");
-
 
       if (!msg.guild.voiceConnection) msg.member.voiceChannel.join()
         .catch(e => msg.reply(e))
@@ -77,8 +77,13 @@ module.exports.run = async (client, msg, args) => {
             author += "...";
           }
 
-          formattedQueue += `${i}: ${title} by ${author}\n`;
+          formattedQueue += `${i.toString(16)}: ${title} by ${author}\n`;
         };
+
+        if (formattedQueue.length > 2000) {
+          formattedQueue = formattedQueue.substr(0, 1950);
+          formattedQueue += "...";
+        }
 
         msg.reply("```" + formattedQueue + "```");
       } else {
@@ -104,25 +109,7 @@ module.exports.run = async (client, msg, args) => {
   };
 };
 /* jshint ignore:end */
-/*
-module.exports.run = (client, msg, args) => {
-  if (!args[0]) return;
-  if (!YTDL.validateURL(args[0])) return;
-  if (!msg.member.voiceChannel) return;
-  if (!msg.member.guild.voiceConnection) msg.member.voiceChannel.join()
-    .catch(e => console.log(e))
-    .then(function(connection) {
-      dp = mf.play(client, connection, args[0]);
-      if (args[1]) {
-        dp.setVolume(parseFloat(args[1]));
-      }
-      client.once('musicend', () => {
-        connection.disconnect();
-      });
-    });
 
-};
-*/
 
 module.exports.help = {
   name: "music",
