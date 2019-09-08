@@ -62,7 +62,7 @@ jobs:
           command: npm test
       - run:
           name: ESLint
-          command: eslint ./ -f junit -o ./reports/eslint.xml
+          command: eslint . -f junit -o ./reports/eslint.xml
 
       - store_test_results:
           path: ./reports
