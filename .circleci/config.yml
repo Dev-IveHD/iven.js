@@ -62,15 +62,15 @@ jobs:
           command: npm test
       - run:
           name: ESLint
-          command: npm run lint --quiet
+          command: |
+            mkdir -p ~/reports
+            npm run lint --quiet --format junit --output-file ~/reports/eslint.xml
 
+      - store_test_results:
+          path: ~/reports
+          
       - store_artifacts:
-          path: test-results.xml
-          prefix: tests
-
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
+          path: ~/reports   
 
       - status_to_ms_teams/report:
           webhook_url: ${MS_TEAMS_WEBHOOK_URL}
