@@ -63,6 +63,7 @@ jobs:
       - run:
           name: ESLint
           command: |
+            ls -al
             mkdir -p ~/reports
             eslint . --ext .js --format junit --output-file ~/reports/eslint.xml
 
