@@ -1,16 +1,18 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 /**
  * @Author: Iven Beck
  * @Date:   2019-05-26T21:04:13+02:00
  * @Email:  ivenbeck@outlook.de
  * @Last modified by:   Iven Beck
- * @Last modified time: 2019-08-07T20:18:10+02:00
+ * @Last modified time: 2019-09-07T23:50:01+02:00
  */
 
 
 const YTDL = require('ytdl-core');
 
 const queue = {};
+const info = {};
 
 /* Should look like:
 {
@@ -51,7 +53,16 @@ module.exports.run = async (client, msg, args) => {
       if (!YTDL.validateURL(args[1])) return;
 
       if (!queue[msg.guild.id]) queue[msg.guild.id] = [];
+      if (!info[msg.guild.id]) info[msg.guild.id] = [];
       queue[msg.guild.id].push(args[1]);
+
+      const currinfo = await YTDL.getBasicInfo(args[1]);
+
+      info[msg.guild.id].push({
+        author: currinfo.author.name,
+        title: currinfo.title,
+      });
+
       msg.reply(`Your track is number \`${queue[msg.guild.id].length}\` in queue!`);
 
       if (!msg.guild.voiceConnection) {
@@ -71,31 +82,27 @@ module.exports.run = async (client, msg, args) => {
     case 'q':
 
       if (queue[msg.guild.id]) {
-        const rawQueue = queue[msg.guild.id];
         let formattedQueue = '';
-
-        for (let i = 0; i < rawQueue.length; i + 1) {
+        for (let i = 0; i < info[msg.guild.id].length; i++) {
           // needs to be improved!
           // eslint-disable-next-line no-await-in-loop
-          const songInfo = await YTDL.getInfo(rawQueue[i]);
+          console.log(i);
           let {
             title,
-          } = songInfo.player_response.videoDetails;
-          let {
             author,
-          } = songInfo.player_response.videoDetails;
+          } = info[msg.guild.id][i];
 
-          if (title.length > 60) {
-            title = title.substr(0, 60);
+          if (title.length > 100) {
+            title = title.substr(0, 97);
             title += '...';
           }
-
-          if (author.length > 20) {
-            author = author.substr(0, 20);
+          if (author.length > 30) {
+            author = author.substr(0, 27);
             author += '...';
           }
 
-          formattedQueue += `${i.toString(16)}: ${title} by ${author}\n`;
+          const count = 100 - title.length;
+          formattedQueue += `${i.toString(16)}: ${title}${' '.repeat(count)} by ${author}\n`;
         }
 
         if (formattedQueue.length > 2000) {
