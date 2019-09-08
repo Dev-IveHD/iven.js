@@ -63,7 +63,6 @@ jobs:
       - run:
           name: ESLint
           command: |
-            mkdir -p ~/reports
             eslint ./ -f junit -o ~/reports/eslint.xml
 
       - store_test_results:
