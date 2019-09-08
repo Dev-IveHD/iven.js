@@ -64,7 +64,7 @@ jobs:
           name: ESLint
           command: |
             mkdir -p ~/reports
-            eslint ./src/ --format junit --output-file ~/reports/eslint.xml
+            eslint . --format junit --output-file ~/reports/eslint.xml
 
       - store_test_results:
           path: ~/reports
