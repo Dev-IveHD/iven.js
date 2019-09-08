@@ -12,29 +12,30 @@
 const YTDL = require('ytdl-core');
 
 const queue = {};
-const info = {};
+let info = {};
 
-/* Should look like:
+/*
 {
   GUILDID: [
-    video_urls...
+    video_urls,
+    ...
   ]
 }
 */
 
 // TODO: Add a fn that checks for empty vc every 5-10 s to reduce res drain
-// TODO: Make songdetails a parallel Array and fetch Info when track is being added not on request
-// TODO: Add max queue length
 
 /* jshint ignore:start */ // because it cant handle async/await
 
 function addEndListener(dispatcher, connection, msg) {
   dispatcher.once('end', () => {
+    info = info.slice(1, info.length);
     if (queue[msg.guild.id][0]) {
       dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
         filter: 'audioonly',
+        highWaterMark: 6000000,
       }));
-      addEndListener(dispatcher, connection);
+      addEndListener(dispatcher, connection, msg);
     } else {
       connection.disconnect();
     }
@@ -54,6 +55,10 @@ module.exports.run = async (client, msg, args) => {
 
       if (!queue[msg.guild.id]) queue[msg.guild.id] = [];
       if (!info[msg.guild.id]) info[msg.guild.id] = [];
+      if (queue[msg.guild.id].length >= 20) {
+        await msg.reply('The max playlist length of this server has been reached.');
+        return;
+      }
       queue[msg.guild.id].push(args[1]);
 
       await YTDL.getBasicInfo(args[1], (err, currinfo) => {
@@ -71,8 +76,9 @@ module.exports.run = async (client, msg, args) => {
           .then((connection) => {
             const dispatcher = connection.playStream(YTDL(queue[msg.guild.id].shift(), {
               filter: 'audioonly',
-              highWaterMark: 60000000,
+              highWaterMark: 6000000,
             }));
+            info[msg.guild.id].shift();
             addEndListener(dispatcher, connection, msg);
           });
       }
@@ -101,7 +107,14 @@ module.exports.run = async (client, msg, args) => {
           }
 
           const count = 100 - title.length;
-          formattedQueue += `${i.toString(16)}: ${title}${' '.repeat(count)} by ${author}\n`;
+          let num;
+          if (i <= 16) {
+            num = `0${i.toString(16)}`;
+          } else {
+            num = i.toString(16);
+          }
+
+          formattedQueue += `${num}: ${title}${' '.repeat(count)} by ${author}\n`;
         }
 
         if (formattedQueue.length > 2000) {
