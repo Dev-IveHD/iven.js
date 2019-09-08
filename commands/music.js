@@ -56,11 +56,11 @@ module.exports.run = async (client, msg, args) => {
       if (!info[msg.guild.id]) info[msg.guild.id] = [];
       queue[msg.guild.id].push(args[1]);
 
-      const currinfo = await YTDL.getBasicInfo(args[1]);
-
-      info[msg.guild.id].push({
-        author: currinfo.author.name,
-        title: currinfo.title,
+      await YTDL.getBasicInfo(args[1], (err, currinfo) => {
+        info[msg.guild.id].push({
+          author: currinfo.author.name,
+          title: currinfo.title,
+        });
       });
 
       msg.reply(`Your track is number \`${queue[msg.guild.id].length}\` in queue!`);
@@ -86,7 +86,6 @@ module.exports.run = async (client, msg, args) => {
         for (let i = 0; i < info[msg.guild.id].length; i++) {
           // needs to be improved!
           // eslint-disable-next-line no-await-in-loop
-          console.log(i);
           let {
             title,
             author,
