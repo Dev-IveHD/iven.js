@@ -55,7 +55,7 @@ jobs:
 
       - run:
           name: Install npm dev
-          command: npm install --only=dev
+          command: npm install --only=dev && npm install
 
       - run:
           name: Test
