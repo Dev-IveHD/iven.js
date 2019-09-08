@@ -63,14 +63,14 @@ jobs:
       - run:
           name: ESLint
           command: |
-            mkdir -p ./reports
-            eslint . --ext .js -o ./reports/eslint.xml -f junit
+            mkdir -p ~/reports
+            eslint . --ext .js -o ~/reports/eslint.xml -f junit
 
       - store_test_results:
-          path: ./reports
+          path: ~/reports
 
       - store_artifacts:
-          path: ./reports   
+          path: ~/reports   
 
       - status_to_ms_teams/report:
           webhook_url: ${MS_TEAMS_WEBHOOK_URL}
