@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
-/* eslint-disable import/no-dynamic-require */
 /* eslint-disable no-console */
+/* global process */
 /**
  * @Author: Iven Beck
  * @Date:   2019-05-25T16:17:50+02:00

@@ -1,3 +1,4 @@
+/* global process */
 /**
  * @Author: Iven Beck
  * @Date:   2019-05-25T16:17:50+02:00
@@ -54,13 +55,13 @@ module.exports.run = (client, msg, args) => {
       const desc = (searchedcmd.help.description ? searchedcmd.help.description : 'UNDEFINED');
       const syntax = (searchedcmd.help.syntax ? searchedcmd.help.syntax : 'UNDEFINED');
 
-      helpstring = '```'
-        + `Help for '${prefix}${searchedcmd.help.name}'\n`
-        + 'Info: [] = optional, {} = obligatory\n\n'
-        + `Required Perms: ${perm}\n\n`
-        + `Description: ${desc}\n\n`
-        + `Syntax: ${prefix}${syntax}`
-        + '```';
+      helpstring = '```' +
+        `Help for '${prefix}${searchedcmd.help.name}'\n` +
+        'Info: [] = optional, {} = obligatory\n\n' +
+        `Required Perms: ${perm}\n\n` +
+        `Description: ${desc}\n\n` +
+        `Syntax: ${prefix}${syntax}` +
+        '```';
       msg.channel.send(helpstring);
     } catch (e) {
       msg.channel.send(`Error: \`Invalid Search Query\`\nTry listing available commands with \`${prefix}help\``);
