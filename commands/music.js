@@ -23,7 +23,7 @@ let info = {};
 }
 */
 
-// TODO: Add a fn that checks for empty vc every 5-10 s to reduce res drain
+// TODO: Add a fn that checks for empty vc every 5-10 s
 
 /* jshint ignore:start */ // because it cant handle async/await
 
