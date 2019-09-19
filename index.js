@@ -17,6 +17,7 @@
 const discord = require('discord.js');
 const fs = require('fs');
 const botconfig = require('./botconfig.json');
+const presence = require('./presence.json');
 
 const client = new discord.Client({
   disableEveryone: true,
@@ -51,6 +52,14 @@ function formatLogMessage(message) {
   else if (milliseconds.length < 3) milliseconds = `0${milliseconds}`;
 
   return `[${hours}:${minutes}:${seconds}:${milliseconds}]  |  ${message}\n`;
+}
+
+function setPresence(client) {
+  var choice = presence["txt"][Math.floor(Math.random() * presence["txt"].length)];
+
+  client.user.setActivity(choice)
+    .catch((e) => console.log(`[ERR] Activity Error:\n${e}`));
+  return;
 }
 
 client.commands = new discord.Collection();
@@ -99,8 +108,9 @@ fs.readdir('./events/', (err, file) => {
 
 client.on('ready', () => {
   console.log('[INFO] Bot is ready!');
-  client.user.setActivity(`Use ${prefix}help for a list of commands`)
-    .catch((e) => console.log(`[ERR] Activity Error:\n${e}`));
+  setInterval(function () {
+    setPresence(client);
+  }, presence["interval"]);
 });
 
 client.on('message', (message) => {
