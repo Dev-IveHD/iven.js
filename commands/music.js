@@ -48,9 +48,9 @@ module.exports.run = async (client, msg, args) => {
     case 'play':
     case 'p':
 
-      if (!args[1]) return;
-      if (!msg.member.voiceChannel) return;
-      if (!YTDL.validateURL(args[1])) return;
+      if (!msg.member.voiceChannel) return msg.reply("you must be in a voice channel to use this feature.");
+      if (!args[1]) return msg.reply("please enter an URL.");
+      if (!YTDL.validateURL(args[1])) return msg.reply("please enter a valid URL.");
 
       if (!queue[msg.guild.id]) queue[msg.guild.id] = [];
       //if (!info[msg.guild.id]) info[msg.guild.id] = [];
