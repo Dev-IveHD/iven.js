@@ -116,7 +116,7 @@ client.on('ready', () => {
 client.on('message', (message) => {
   if (message.author.bot) return;
   if (message.channel.type === 'dm') {
-    message.channel.send("Sorry fellow human, sadly I'm only functional in guild chats.");
+    message.channel.send(":children_crossing: Sorry, I'm only functional in guild chats.");
     return;
   }
   if (!message.content.startsWith(prefix, 0)) return;
@@ -131,10 +131,10 @@ client.on('message', (message) => {
 });
 
 client.login(token)
-  .catch((e) => console.log(`[ERR] Login error:\n${e}`));
+  .catch((e) => console.error(`Login error:\n${e}`));
 
 client.on('error', (err) => {
-  // Normally only occurs on Hibernate --> Can be ignored because it auto reconnects
+  // Normally only occurs on Server going to standby and being reawakened --> Can be ignored because it auto reconnects
   if (err.error.errno === 'EHOSTUNREACH' || err.error.errno === '') return;
   console.error(err.error);
 });
