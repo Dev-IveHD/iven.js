@@ -16,7 +16,6 @@
   "dependencies": {
     "discord.js": "^11.5.1",
     "dotenv": "^8.1.0",
-    "ffmpeg-binaries": "^4.0.0",
     "fs": "0.0.1-security",
     "ms": "^2.1.2",
     "opusscript": "0.0.6",
@@ -24,7 +23,7 @@
     "ytdl-core": "^0.29.6"
   },
   "scripts": {
-    "run": "node index.js",
+    "start": "node index.js",
     "pretest": "mkdir -p ./reports/ && npm run lint",
     "test": "echo 'tests coming soon!'",
     "lint": "eslint . -f junit -o ./reports/eslint/results.xml"
