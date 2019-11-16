@@ -16,6 +16,23 @@ Node.js 8.12.0 or higher
 
 ### Installing
 
+## Docker
+
+A step by step series of examples that tell you how to get the docker image up and running
+
+Pull the image
+
+```
+$ docker pull ivehd/iven-js:latest
+```
+
+Start the container
+```
+$ docker run -e TOKEN='Token goes here' -e PREFIX='-' ivehd/iven-js
+```
+
+## Manual
+
 A step by step series of examples that tell you how to get the bot up and running
 
 Clone git repository
