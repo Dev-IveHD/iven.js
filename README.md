@@ -44,21 +44,22 @@ $ git clone https://github.com/ibveecnk/iven.js.git
 Install dependencies
 
 ```
-$ npm install
+$ yarn install
 ```
 
 Install FFMPEG for your os (if not installed prefix music.js `commands/music.js` with `!`
 
-Change token and prefix in botconfig.json or process.env (`Params: TOKEN | PREFIX`)
+Change token and prefix in process.env by creating a .env file
 
 ```
-$ vi botconfig.json
+TOKEN=
+PREFIX=-
 ```
 
 Run the bot
 
 ```
-$ node index.js
+$ yarn start
 ```
 
 After having the bot added to a guild, try sending $ping ($ ressembles your prefix) and the bot should reply.
