@@ -9,12 +9,11 @@
 
 
 const index = require('../index');
-const botconfig = require('../botconfig');
 
 module.exports.run = (client, msg, args) => {
   let helpstring = '';
   const commands = index.commandcollection;
-  const prefix = process.env.PREFIX || botconfig.prefix;
+  const prefix = process.env.PREFIX;
   const empty = ' ';
   const assocStr = ' >> ';
 

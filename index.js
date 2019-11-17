@@ -16,7 +16,6 @@
 
 const discord = require('discord.js');
 const fs = require('fs');
-const botconfig = require('./botconfig.json');
 const presence = require('./presence.json');
 
 const client = new discord.Client({
@@ -24,8 +23,8 @@ const client = new discord.Client({
 });
 require('dotenv').config();
 
-const token = process.env.TOKEN || botconfig.token;
-const prefix = process.env.PREFIX || botconfig.prefix;
+const token = process.env.TOKEN;
+const prefix = process.env.PREFIX;
 
 function formatLogMessage(message) {
   const date = new Date();
