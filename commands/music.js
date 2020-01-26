@@ -199,8 +199,8 @@ function play(guild, song) {
       serverQueue.songs.shift();
       play(guild, serverQueue.songs[0]);
     })
-    .on('error', error => {
-      return message.channel.send(err);
+    .on('error', err => {
+      return serverQueue.textChannel.send(err);
     });
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
