@@ -20,7 +20,8 @@
     "ms": "^2.1.2",
     "opusscript": "0.0.6",
     "require.js": "^1.0.0",
-    "ytdl-core": "^1.0.7"
+    "ytdl-core": "^1.0.7",
+    "ytpl": "^0.1.19"
   },
   "scripts": {
     "start": "node index.js",

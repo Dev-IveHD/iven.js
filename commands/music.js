@@ -9,6 +9,7 @@
  */
 
 const ytdl = require('ytdl-core');
+const ytpl = require('ytpl');
 const queue = new Map();
 
 function subCmdParser(client, message, args) {
@@ -55,18 +56,20 @@ async function sendQueue(message, serverQueue) {
       }
       const count = 100 - title.length;
       let num;
-      if (i <= 16) {
-        num = `0${i.toString(16)}`;
+      if (i <= 9) {
+        num = `0${i}`;
       } else {
-        num = i.toString(16);
+        num = i;
       }
 
       formattedQueue += `${num}: ${title}${' '.repeat(count)} by ${author}\n`;
     });
 
+    let finalQueue;
+
     if (formattedQueue.length > 2000) {
       formattedQueue = formattedQueue.substr(0, 1950);
-      formattedQueue += '...';
+      formattedQueue += '\n...';
     }
     message.channel.send(`\`\`\`${formattedQueue}\`\`\``);
   } else {
@@ -77,7 +80,7 @@ async function sendQueue(message, serverQueue) {
 async function setVolume(message, serverQueue, vol) {
   if (serverQueue.connection) {
     try {
-      serverQueue.connection.dispatcher.setVolumeLogarithmic(vol);
+      serverQueue.connection.dispatcher.setVolumeLogarithmic(vol / 5);
       serverQueue.volume = vol;
       message.channel.send('Volume set to ' + vol);
     } catch (e) {
@@ -103,12 +106,10 @@ async function execute(message, serverQueue) {
     );
   }
 
-  const songInfo = await ytdl.getInfo(args[2]);
-  const song = {
-    title: songInfo.title,
-    author: songInfo.author.name,
-    url: songInfo.video_url,
-  };
+  const isSingle = ytdl.validateURL(args[2]);
+  const isPlaylist = ytpl.validateURL(args[2]);
+
+  if (!isSingle && !isPlaylist) return message.channel.send('Invalid URL');
 
   if (!serverQueue) {
     const queueContruct = {
@@ -121,23 +122,47 @@ async function execute(message, serverQueue) {
     };
 
     queue.set(message.guild.id, queueContruct);
+  }
 
-    queueContruct.songs.push(song);
+  serverQueue = queue.get(message.guild.id);
 
+  if (isSingle) {
+    const songInfo = await ytdl.getInfo(args[2]);
+    const song = {
+      title: songInfo.title,
+      author: songInfo.author.name,
+      url: songInfo.video_url,
+    };
+
+    serverQueue.songs.push(song);
+  }
+
+  if (isPlaylist) {
+    const allTracks = await ytpl(args[2]);
+    allTracks.items.forEach(async item => {
+      const songInfo = await ytdl.getInfo(item.url_simple);
+      const song = {
+        title: songInfo.title,
+        author: songInfo.author.name,
+        url: songInfo.video_url,
+      };
+      serverQueue.songs.push(song);
+    });
+  }
+
+  if (!serverQueue.connection) {
     try {
       var connection = await voiceChannel.join();
-      queueContruct.connection = connection;
-      play(message.guild, queueContruct.songs[0]);
+      serverQueue.connection = connection;
+      play(message.guild, serverQueue.songs[0]);
     } catch (err) {
       console.log(err);
       queue.delete(message.guild.id);
       return message.channel.send(err);
     }
-  } else {
-    serverQueue.songs.push(song);
-    return message.channel.send(`${song.title} has been added to the queue!`);
   }
 }
+
 function skip(message, serverQueue) {
   if (!message.member.voiceChannel)
     return message.channel.send(
