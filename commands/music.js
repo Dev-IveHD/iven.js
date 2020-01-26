@@ -154,7 +154,6 @@ async function execute(message, serverQueue) {
       serverQueue.connection = connection;
       play(message.guild, serverQueue.songs[0]);
     } catch (err) {
-      console.error(err);
       queue.delete(message.guild.id);
       return message.channel.send(err);
     }
@@ -201,7 +200,7 @@ function play(guild, song) {
       play(guild, serverQueue.songs[0]);
     })
     .on('error', error => {
-      console.error(error);
+      return message.channel.send(err);
     });
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
