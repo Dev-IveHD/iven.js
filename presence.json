@@ -1,7 +1,4 @@
 {
   "interval": 10000,
-  "txt": [
-    "iven.js powered by Node",
-    "Hello"
-  ]
+  "txt": ["iven.js powered by Node", "Hello", "187 for president"]
 }

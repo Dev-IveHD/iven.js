@@ -28,14 +28,10 @@ const prefix = process.env.PREFIX;
 
 function formatLogMessage(message) {
   const date = new Date();
-  let hours = date.getHours()
-    .toString();
-  let minutes = date.getMinutes()
-    .toString();
-  let seconds = date.getSeconds()
-    .toString();
-  let milliseconds = date.getMilliseconds()
-    .toString();
+  let hours = date.getHours().toString();
+  let minutes = date.getMinutes().toString();
+  let seconds = date.getSeconds().toString();
+  let milliseconds = date.getMilliseconds().toString();
 
   if (hours === '0') hours = '00';
   else if (hours.length < 2) hours = `0${hours}`;
@@ -54,17 +50,18 @@ function formatLogMessage(message) {
 }
 
 function setPresence(client) {
-  var choice = presence["txt"][Math.floor(Math.random() * presence["txt"].length)];
+  var choice = presence.txt[Math.floor(Math.random() * presence.txt.length)];
 
-  client.user.setActivity(choice)
-    .catch((e) => console.log(`[ERR] Activity Error:\n${e}`));
+  client.user
+    .setActivity(choice)
+    .catch(e => console.log(`[ERR] Activity Error:\n${e}`));
   return;
 }
 
 client.commands = new discord.Collection();
 const commandcollection = client.commands;
 
-fs.writeFile('./log.txt', formatLogMessage('Log started\n'), (err) => {
+fs.writeFile('./log.txt', formatLogMessage('Log started\n'), err => {
   if (err) return console.log(`[ERROR] ${err}`);
   return true;
 });
@@ -73,13 +70,17 @@ fs.writeFile('./log.txt', formatLogMessage('Log started\n'), (err) => {
 fs.readdir('./commands/', (err, files) => {
   if (err) console.log(err);
   console.log(`${'_'.repeat(10)}\nCommands`);
-  const jsfile = files.filter((f) => f.split('.')
-    .pop() === 'js');
-  jsfile.forEach((f) => {
+  const jsfile = files.filter(f => f.split('.').pop() === 'js');
+  jsfile.forEach(f => {
     const props = require(`./commands/${f}`);
     if (!f.startsWith('!') && props.help.name != null) {
       try {
         client.commands.set(props.help.name.toLowerCase(), props);
+        if (props.help.alias) {
+          props.help.alias.forEach(alias => {
+            client.commands.set(alias.toLowerCase(), props);
+          });
+        }
         console.log(`+ ${f} loaded.`);
       } catch (e) {
         console.log(`An error occured in File ${f}:\n${e}`);
@@ -89,13 +90,11 @@ fs.readdir('./commands/', (err, files) => {
   console.log('\n');
 });
 
-
 fs.readdir('./events/', (err, file) => {
   if (err) console.log(err);
   console.log(`${'_'.repeat(10)}\nEvents`);
-  const jsfile = file.filter((f) => f.split('.')
-    .pop() === 'js');
-  jsfile.forEach((f) => {
+  const jsfile = file.filter(f => f.split('.').pop() === 'js');
+  jsfile.forEach(f => {
     const props = require(`./events/${f}`);
     if (!f.startsWith('!')) {
       console.log(`+ ${f} loaded.`);
@@ -107,15 +106,17 @@ fs.readdir('./events/', (err, file) => {
 
 client.on('ready', () => {
   console.log('[INFO] Bot is ready!');
-  setInterval(function () {
+  setInterval(function() {
     setPresence(client);
-  }, presence["interval"]);
+  }, presence.interval);
 });
 
-client.on('message', (message) => {
+client.on('message', message => {
   if (message.author.bot) return;
   if (message.channel.type === 'dm') {
-    message.channel.send(":children_crossing: Sorry, I'm only functional in guild chats.");
+    message.channel.send(
+      ":children_crossing: Sorry, I'm only functional in guild chats.",
+    );
     return;
   }
   if (!message.content.startsWith(prefix, 0)) return;
@@ -126,13 +127,17 @@ client.on('message', (message) => {
   if (commandfile) {
     commandfile.run(client, message, args);
   }
-  fs.appendFileSync('./log.txt', formatLogMessage(`${message.author.username}#${message.author.discriminator} issued command ${message}`));
+  fs.appendFileSync(
+    './log.txt',
+    formatLogMessage(
+      `${message.author.username}#${message.author.discriminator} issued command ${message}`,
+    ),
+  );
 });
 
-client.login(token)
-  .catch((e) => console.error(`Login error:\n${e}`));
+client.login(token).catch(e => console.error(`Login error:\n${e}`));
 
-client.on('error', (err) => {
+client.on('error', err => {
   // Normally only occurs on Server going to standby and being reawakened --> Can be ignored because it auto reconnects
   if (err.error.errno === 'EHOSTUNREACH' || err.error.errno === '') return;
   console.error(err.error);
