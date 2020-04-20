@@ -35,8 +35,10 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install npm wee
-          command: npm install
+          name: Install npm dev
+          command: |
+            npm install --only=dev
+            npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
@@ -63,8 +65,10 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install npm wee
-          command: npm install
+          name: Install npm dev
+          command: |
+            npm install --only=dev
+            npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
