@@ -31,7 +31,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "build": "babel --copy-files --presets env -d build/ .",
+    "build": "babel --copy-files --ignore 'node_modules/**/*.js' --presets env -d build/ .",
     "pretest": "mkdir -p ./reports/ && npm run lint",
     "test": "echo 'tests coming soon!'",
     "lint": "eslint ./build -f junit -o ./reports/eslint/results.xml"
