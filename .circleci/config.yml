@@ -17,10 +17,10 @@ jobs:
             npm install
       - run:
           name: Lint
-          command: npm lint
+          command: npm run lint
       - run:
           name: Test
-          command: npm test
+          command: npm run test
       - store_test_results:
           path: reports
 
@@ -32,26 +32,24 @@ jobs:
       - run:
           name: Update npm
           command: 'sudo npm install -g npm@latest'
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+      #      - restore_cache:
+      #          key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install npm dev
-          command: |
-            npm install --only=dev
-            npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          name: Install npm wee
+          command: npm install
+      #      - save_cache:
+      #          key: dependency-cache-{{ checksum "package.json" }}
+      #          paths:
+      #            - node_modules
+      #     - restore_cache:
+      #  keys:
+      #            - v1-dependencies-{{ checksum "package.json" }}
+      #            # fallback to using the latest cache if no exact match is found
+      #            - v1-dependencies-
+      #      - save_cache:
+      #          paths:
+      #            - node_modules
+      #          key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run build
 
   release:
@@ -62,26 +60,24 @@ jobs:
       - run:
           name: Update npm
           command: 'sudo npm install -g npm@latest'
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+      #      - restore_cache:
+      #          key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install npm dev
-          command: |
-            npm install --only=dev
-            npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          name: Install npm wee
+          command: npm install
+      #      - save_cache:
+      #          key: dependency-cache-{{ checksum "package.json" }}
+      #          paths:
+      #            - node_modules
+      #      - restore_cache:
+      #          keys:
+      #            - v1-dependencies-{{ checksum "package.json" }}
+      #           # fallback to using the latest cache if no exact match is found
+      #            - v1-dependencies-
+      #      - save_cache:
+      #          paths:
+      #            - node_modules
+      #          key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run build
       - run: npx semantic-release
 
