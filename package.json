@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^7.1.1",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -11,7 +13,8 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "eslint-plugin-standard": "^2.0.1",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "semantic-release": "^17.0.6"
   },
   "dependencies": {
     "discord.js": "^11.5.1",
@@ -21,12 +24,13 @@
     "opusscript": "0.0.6",
     "require.js": "^1.0.0",
     "ytdl-core": "^1.0.7",
-    "ytpl": "^0.1.19"
+    "ytpl": "^0.1.20"
   },
   "scripts": {
     "start": "node index.js",
+    "build": "babel --presets env -d build/ .",
     "pretest": "mkdir -p ./reports/ && npm run lint",
     "test": "echo 'tests coming soon!'",
-    "lint": "eslint . -f junit -o ./reports/eslint/results.xml"
+    "lint": "eslint ./build -f junit -o ./reports/eslint/results.xml"
   }
 }
