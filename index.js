@@ -9,11 +9,6 @@
  * @Last modified time: 2019-08-07T20:19:30+02:00
  */
 
-/*
- * Copyright (c) 2019. Iven Beck
- * You are free to use this code if you give it as a source.
- */
-
 const discord = require('discord.js');
 const fs = require('fs');
 const presence = require('./presence.json');
@@ -106,7 +101,7 @@ fs.readdir('./events/', (err, file) => {
 
 client.on('ready', () => {
   console.log('[INFO] Bot is ready!');
-  setInterval(function() {
+  setInterval(function () {
     setPresence(client);
   }, presence.interval);
 });
