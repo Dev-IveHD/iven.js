@@ -1,7 +1,6 @@
 # Javascript Node CircleCI 2.0 configuration file
-#
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+
 version: 2
 
 jobs:
@@ -31,26 +30,25 @@ jobs:
       - checkout
       - run:
           name: Update npm
-          command: 'sudo npm install -g npm@latest'
-      #      - restore_cache:
-      #          key: dependency-cache-{{ checksum "package.json" }}
+          command: "sudo npm install -g npm@latest"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Install npm wee
           command: npm install
-      #      - save_cache:
-      #          key: dependency-cache-{{ checksum "package.json" }}
-      #          paths:
-      #            - node_modules
-      #     - restore_cache:
-      #  keys:
-      #            - v1-dependencies-{{ checksum "package.json" }}
-      #            # fallback to using the latest cache if no exact match is found
-      #            - v1-dependencies-
-      #      - save_cache:
-      #          paths:
-      #            - node_modules
-      #          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run build
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+              #fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 
   release:
     docker:
@@ -59,36 +57,35 @@ jobs:
       - checkout
       - run:
           name: Update npm
-          command: 'sudo npm install -g npm@latest'
-      #      - restore_cache:
-      #          key: dependency-cache-{{ checksum "package.json" }}
+          command: "sudo npm install -g npm@latest"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Install npm wee
           command: npm install
-      #      - save_cache:
-      #          key: dependency-cache-{{ checksum "package.json" }}
-      #          paths:
-      #            - node_modules
-      #      - restore_cache:
-      #          keys:
-      #            - v1-dependencies-{{ checksum "package.json" }}
-      #           # fallback to using the latest cache if no exact match is found
-      #            - v1-dependencies-
-      #      - save_cache:
-      #          paths:
-      #            - node_modules
-      #          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run build
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            #fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run: npx semantic-release
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-      - test:
+      - test
+      - build:
           requires:
-            - build
+            - test
   test_and_release:
     jobs:
       - test_node_8
