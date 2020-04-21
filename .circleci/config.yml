@@ -6,7 +6,7 @@ version: 2
 jobs:
   test_node_10:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:circleci/node:10.18
     steps:
       - checkout
       - run:
@@ -25,7 +25,7 @@ jobs:
 
   build:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:circleci/node:10.18
     steps:
       - checkout
       - run:
@@ -52,7 +52,7 @@ jobs:
 
   release:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:circleci/node:10.18
     steps:
       - checkout
       - run:
