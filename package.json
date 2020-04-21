@@ -2,6 +2,10 @@
   "name": "iven.js",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibveecnk/iven.js.git"
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.9.5",
     "@semantic-release/changelog": "^5.0.1",
