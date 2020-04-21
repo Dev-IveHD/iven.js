@@ -83,8 +83,9 @@ workflows:
   test_and_release:
     jobs:
       - test_node_10:
-          branches:
-            only: master
+          filters:
+            branches:
+              only: master
       - release:
           requires:
             - test_node_10
@@ -95,8 +96,10 @@ workflows:
   test_and_build:
     jobs:
       - test_node_10:
-          branches:
-            ignore: master
+          filters:
+            branches:
+              ignore:
+                - master
       - build:
           filters:
             branches:
