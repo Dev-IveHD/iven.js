@@ -8,7 +8,6 @@
  * @Last modified by:   Iven Beck
  * @Last modified time: 2019-08-07T20:19:30+02:00
  */
-
 const discord = require('discord.js');
 const fs = require('fs');
 const presence = require('./presence.json');
@@ -138,10 +137,5 @@ client.on('error', err => {
   console.error(err.error);
 });
 
-/*
-client.on('debug', info => {
-  console.log(info);
-});
-*/
 
 module.exports.commandcollection = commandcollection;
