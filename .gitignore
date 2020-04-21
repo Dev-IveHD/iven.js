@@ -6,3 +6,4 @@ log.txt
 .jshintrc
 *.cmd
 reports
+build
