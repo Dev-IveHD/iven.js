@@ -19,6 +19,7 @@
     "babel-plugin-transform-replace-object-assign": "^2.0.0",
     "babel-preset-env": "^1.7.0",
     "conventional-changelog-eslint": "^3.0.4",
+    "cz-adapter-eslint": "0.3.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -46,6 +47,12 @@
     "pretest": "mkdir -p ./reports/ && npm run lint",
     "test": "echo 'tests coming soon!'",
     "lint": "eslint . -f junit -o ./reports/eslint/results.xml",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "cz": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-adapter-eslint"
+    }
   }
 }
