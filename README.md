@@ -27,8 +27,9 @@ $ docker pull ivehd/iven-js:latest
 ```
 
 Start the container
+
 ```
-$ docker run -e TOKEN='Token goes here' -e PREFIX='-' ivehd/iven-js
+$ docker run -e TOKEN=TOKEN_GOES_HERE -e PREFIX=- ivehd/iven-js
 ```
 
 ## Manual
@@ -67,19 +68,20 @@ If that however doesn't work, please contact me via discord `@Iven#8562`
 
 ## Built With
 
-* [Node.js](https://nodejs.org/)
-* [Discord.js](https://discord.js.org/#/) - Discord API implementation
+- [Node.js](https://nodejs.org/)
+- [Discord.js](https://discord.js.org/#/) - Discord API implementation
 
 ## Versioning
 
 This project uses [SemVer](http://semver.org/) for versioning.
 
 ## Contributing
+
 See [CONTRIBUTING](CONTRIBUTING.md) file for details
 
 ## Authors
 
-* **Iven Beck** - *Maintainer* - [dev.ib](https://github.com/ibveecnk)
+- **Iven Beck** - _Maintainer_ - [dev.ib](https://github.com/ibveecnk)
 
 ## License
 
