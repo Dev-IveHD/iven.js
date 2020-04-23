@@ -6,13 +6,12 @@
  * @Last modified time: 2019-07-25T23:11:56+02:00
  */
 
-
 module.exports.run = (bot, msg, args) => {
   let base = 'Pong!\n';
 
   if (msg.member.roles) {
     let rolestring = '';
-    msg.member.roles.forEach((r) => {
+    msg.member.roles.cache.forEach((r) => {
       rolestring += `${r.name}, `;
     });
     rolestring = rolestring.substr(0, rolestring.length - 2);

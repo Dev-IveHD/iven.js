@@ -6,17 +6,15 @@
  * @Last modified time: 2019-07-25T23:13:57+02:00
  */
 
-
 module.exports.run = (bot, msg, args) => {
   if (args.length === 0) {
-    msg.channel.send(msg.author.avatarURL);
+    msg.channel.send(msg.author.avatarURL());
   }
   let user;
   if (args.length === 1) {
     try {
       user = msg.mentions.users.first();
-      if (user.avatarURL) msg.channel.send(user.avatarURL);
-      else if (user.defaultAvatarURL) msg.channel.send(user.defaultAvatarURL);
+      if (user.avatarURL()) msg.channel.send(user.avatarURL());
     } catch (e) {
       msg.channel.send('Query Error: `Invalid User`');
     }

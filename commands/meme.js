@@ -2,8 +2,8 @@ const got = require('got');
 const Discord = require('discord.js');
 
 module.exports.run = (bot, msg) => {
-  const embed = new Discord.RichEmbed();
-  got('https://www.reddit.com/r/memes/random/.json').then(response => {
+  const embed = new Discord.MessageEmbed();
+  got('https://www.reddit.com/r/memes/random/.json').then((response) => {
     let content = JSON.parse(response.body);
     let permalink = content[0].data.children[0].data.permalink;
     let memeUrl = `https://reddit.com${permalink}`;
@@ -14,7 +14,9 @@ module.exports.run = (bot, msg) => {
     let memeNumComments = content[0].data.children[0].data.num_comments;
     embed.addField(`${memeTitle}`, `[View thread](${memeUrl})`);
     embed.setImage(memeImage);
-    embed.setFooter(`👍 ${memeUpvotes} 👎 ${memeDownvotes} 💬 ${memeNumComments}`);
+    embed.setFooter(
+      `👍 ${memeUpvotes} 👎 ${memeDownvotes} 💬 ${memeNumComments}`,
+    );
     msg.channel.send(embed);
   });
 };
