@@ -40,11 +40,20 @@ function subCmdParser(client, message, args) {
   }
 }
 
+function removeEmojis(text) {
+  text.replace(
+    /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+    '',
+  );
+}
+
 async function sendQueue(message, serverQueue) {
   if (serverQueue) {
-    let formattedQueue = '';
+    let formattedQueue = 'Queue:\n';
     serverQueue.songs.forEach((song, i) => {
       let { title, author } = song;
+      title = removeEmojis(title);
+      author = removeEmojis(author);
 
       if (title.length > 100) {
         title = title.substr(0, 97);
@@ -82,7 +91,7 @@ async function setVolume(message, serverQueue, vol) {
       serverQueue.volume = vol;
       message.channel.send('Volume set to ' + vol);
     } catch (e) {
-      message.channel.send(e);
+      console.error(e);
     }
   } else {
     message.channel.send("Couldn't set volume!");
@@ -92,7 +101,7 @@ async function setVolume(message, serverQueue, vol) {
 async function execute(message, serverQueue) {
   const args = message.content.split(' ');
 
-  const voiceChannel = message.member.voiceChannel;
+  const voiceChannel = message.member.voice.channel;
   if (!voiceChannel)
     return message.channel.send(
       'You need to be in a voice channel to play music!',
@@ -137,7 +146,7 @@ async function execute(message, serverQueue) {
 
   if (isPlaylist) {
     const allTracks = await ytpl(args[2]);
-    allTracks.items.forEach(async item => {
+    allTracks.items.forEach(async (item) => {
       const songInfo = await ytdl.getInfo(item.url_simple);
       const song = {
         title: songInfo.title,
@@ -199,7 +208,7 @@ function play(guild, song) {
       serverQueue.songs.shift();
       play(guild, serverQueue.songs[0]);
     })
-    .on('error', err => {
+    .on('error', (err) => {
       return serverQueue.textChannel.send(err);
     });
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);

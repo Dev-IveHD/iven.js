@@ -9,7 +9,6 @@
  * @Last modified time: 2019-07-25T23:12:39+02:00
  */
 
-
 const discord = require('discord.js');
 const fs = require('fs');
 
@@ -22,7 +21,7 @@ module.exports.run = (client, message, args) => {
       subliststr += `${e}\n`;
     });
 
-    const embed = new discord.RichEmbed({
+    const embed = new discord.MessageEmbed({
       title: 'Lists',
       description: 'Here you can find possible sublists.',
     });
@@ -39,7 +38,9 @@ module.exports.run = (client, message, args) => {
         description: 'Here you can find Users that have custom join sounds.',
       });
 
-      const usersoundf = JSON.parse(fs.readFileSync('./files/usersounds.json', 'utf8'));
+      const usersoundf = JSON.parse(
+        fs.readFileSync('./files/usersounds.json', 'utf8'),
+      );
 
       for (const key in usersoundf) {
         embed.addField(`ID: ${key}`, usersoundf[key]);

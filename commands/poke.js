@@ -6,7 +6,6 @@
  * @Last modified time: 2019-07-25T23:11:39+02:00
  */
 
-
 const discord = require('discord.js');
 
 module.exports.run = (bot, message, args) => {
@@ -18,25 +17,35 @@ module.exports.run = (bot, message, args) => {
   const text = args.join(' ');
 
   if (!args[1]) {
-    user.send(new discord.RichEmbed()
-      .setColor('#FFFF00')
-      .setTitle(':point_right::skin-tone-5: STUPS')
-      .setDescription(`${user}, you have been poked!`)
-      .addField('By', message.author));
+    user
+      .send(
+        new discord.MessageEmbed()
+          .setColor('#FFFF00')
+          .setTitle(':point_right::skin-tone-5: STUPS')
+          .setDescription(`${user}, you have been poked!`)
+          .addField('By', message.author),
+      )
+      .catch((e) => {
+        message.channel.send('Error: ' + e);
+        return;
+      })
+      .then(message.channel.send(`:white_check_mark: Poking ${user}`));
   } else {
-    user.send(new discord.RichEmbed()
-      .setColor('#FFFF00')
-      .setTitle(':point_right::skin-tone-5: STUPS')
-      .setDescription(`${user}, you have been poked!`)
-      .addField('By', message.author)
-      .addField('Message', text));
+    user
+      .send(
+        new discord.MessageEmbed()
+          .setColor('#FFFF00')
+          .setTitle(':point_right::skin-tone-5: STUPS')
+          .setDescription(`${user}, you have been poked!`)
+          .addField('By', message.author)
+          .addField('Message', text),
+      )
+      .catch((e) => {
+        message.channel.send('Error: ' + e);
+        return;
+      })
+      .then(message.channel.send(`:white_check_mark: Poking ${user}`));
   }
-
-  message.delete();
-  message.channel.send(`:white_check_mark: ${user} was successfully poked`)
-    .then((m) => m.delete(5000));
-
-  return true;
 };
 
 module.exports.help = {
