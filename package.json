@@ -14,7 +14,7 @@
     "@semantic-release/github": "7.0.5",
     "@semantic-release/release-notes-generator": "9.0.1",
     "babel-cli": "6.26.0",
-    "babel-eslint": "7.2.3",
+    "babel-eslint": "10.1.0",
     "babel-plugin-add-module-exports": "1.0.2",
     "babel-plugin-transform-replace-object-assign": "2.0.0",
     "babel-preset-env": "1.7.0",
