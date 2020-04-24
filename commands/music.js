@@ -41,7 +41,7 @@ function subCmdParser(client, message, args) {
 }
 
 function removeEmojis(text) {
-  text.replace(
+  return text.replace(
     /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
     '',
   );
@@ -51,27 +51,31 @@ async function sendQueue(message, serverQueue) {
   if (serverQueue) {
     let formattedQueue = 'Queue:\n';
     serverQueue.songs.forEach((song, i) => {
-      let { title, author } = song;
-      title = removeEmojis(title);
-      author = removeEmojis(author);
+      try {
+        let { title, author } = song;
+        title = removeEmojis(title);
+        author = removeEmojis(author);
 
-      if (title.length > 100) {
-        title = title.substr(0, 97);
-        title += '...';
-      }
-      if (author.length > 30) {
-        author = author.substr(0, 27);
-        author += '...';
-      }
-      const count = 100 - title.length;
-      let num;
-      if (i <= 9) {
-        num = `0${i}`;
-      } else {
-        num = i;
-      }
+        if (title.length > 100) {
+          title = title.substr(0, 97);
+          title += '...';
+        }
+        if (author.length > 30) {
+          author = author.substr(0, 27);
+          author += '...';
+        }
+        const count = 100 - title.length;
+        let num;
+        if (i <= 9) {
+          num = `0${i}`;
+        } else {
+          num = i;
+        }
 
-      formattedQueue += `${num}: ${title}${' '.repeat(count)} by ${author}\n`;
+        formattedQueue += `${num}: ${title}${' '.repeat(count)} by ${author}\n`;
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     if (formattedQueue.length > 2000) {
@@ -163,14 +167,13 @@ async function execute(message, serverQueue) {
       serverQueue.connection = connection;
       play(message.guild, serverQueue.songs[0]);
     } catch (err) {
-      queue.delete(message.guild.id);
-      return message.channel.send(err);
+      console.error(err);
     }
   }
 }
 
 function skip(message, serverQueue) {
-  if (!message.member.voiceChannel)
+  if (!message.member.voice.channel)
     return message.channel.send(
       'You have to be in a voice channel to stop the music!',
     );
@@ -180,7 +183,7 @@ function skip(message, serverQueue) {
 }
 
 function stop(message, serverQueue) {
-  if (!message.member.voiceChannel)
+  if (!message.member.voice.channel)
     return message.channel.send(
       'You have to be in a voice channel to stop the music!',
     );
@@ -197,20 +200,18 @@ function play(guild, song) {
     return;
   }
 
-  const dispatcher = serverQueue.connection
-    .playStream(
-      ytdl(song.url, {
-        highWaterMark: 2 ^ 6,
-        filter: 'audioonly',
-      }),
-    )
-    .on('end', () => {
-      serverQueue.songs.shift();
-      play(guild, serverQueue.songs[0]);
-    })
-    .on('error', (err) => {
-      return serverQueue.textChannel.send(err);
-    });
+  const dispatcher = serverQueue.connection.play(
+    ytdl(song.url, {
+      filter: 'audioonly',
+      quality: 'highestaudio',
+    }),
+  );
+
+  dispatcher.on('end', () => {
+    serverQueue.songs.shift();
+    play(guild, serverQueue.songs[0]);
+  });
+
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 
