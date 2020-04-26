@@ -74,8 +74,6 @@ workflows:
   release:
     jobs:
       - release:
-          requires:
-            - test_node_10
           filters:
             branches:
               only:
