@@ -3,6 +3,7 @@
 A modular, interactive Discord Bot realized in NodeJS.
 
 [![CircleCI](https://circleci.com/gh/ibveecnk/iven.js/tree/master.svg?style=svg)](https://circleci.com/gh/ibveecnk/iven.js/)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d36fafdbbc6849f7a46f6a4d78215f09)](https://www.codacy.com/manual/Dev-IveHD/iven.js?utm_source=github.com&utm_medium=referral&utm_content=ibveecnk/iven.js&utm_campaign=Badge_Grade)
 
 ## Getting Started
 

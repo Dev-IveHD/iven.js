@@ -1,0 +1,4 @@
+{
+  "baseBranches": ["master", "alpha"],
+  "commitMessageAction": "Update:"
+}
