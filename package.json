@@ -1,10 +1,35 @@
 {
   "name": "iven.js",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ibveecnk/iven.js.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "babel --ignore 'node_modules/**/*.js' --presets env -d build/ .",
+    "cz": "git-cz",
+    "lint": "eslint . -f junit -o ./reports/eslint/results.xml",
+    "release": "semantic-release",
+    "start": "node index.js",
+    "pretest": "mkdir -p ./reports/ && npm run lint",
+    "test": "echo 'tests coming soon!'"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-adapter-eslint"
+    }
+  },
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "got": "^11.0.2",
+    "ms": "^2.1.2",
+    "opusscript": "^0.0.7",
+    "require.js": "^1.0.0",
+    "ytdl-core": "^2.1.0",
+    "ytpl": "^0.1.20"
   },
   "devDependencies": {
     "@babel/preset-env": "7.9.5",
@@ -29,30 +54,5 @@
     "eslint-plugin-standard": "4.0.1",
     "nyc": "15.0.1",
     "semantic-release": "17.0.7"
-  },
-  "dependencies": {
-    "discord.js": "^12.2.0",
-    "dotenv": "^8.2.0",
-    "fs": "0.0.1-security",
-    "got": "^11.0.2",
-    "ms": "^2.1.2",
-    "opusscript": "^0.0.7",
-    "require.js": "^1.0.0",
-    "ytdl-core": "^2.1.0",
-    "ytpl": "^0.1.20"
-  },
-  "scripts": {
-    "start": "node index.js",
-    "build": "babel --ignore 'node_modules/**/*.js' --presets env -d build/ .",
-    "pretest": "mkdir -p ./reports/ && npm run lint",
-    "test": "echo 'tests coming soon!'",
-    "lint": "eslint . -f junit -o ./reports/eslint/results.xml",
-    "release": "semantic-release",
-    "cz": "git-cz"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-adapter-eslint"
-    }
   }
 }
