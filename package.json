@@ -25,6 +25,7 @@
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
     "got": "^11.0.2",
+    "is-docker": "^2.0.0",
     "ms": "^2.1.2",
     "opusscript": "^0.0.7",
     "require.js": "^1.0.0",
