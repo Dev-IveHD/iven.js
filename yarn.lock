@@ -4457,6 +4457,11 @@ is-descriptor@^1.0.0, is-descriptor@^1.0.2:
     is-data-descriptor "^1.0.0"
     kind-of "^6.0.2"
 
+is-docker@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-2.0.0.tgz#2cb0df0e75e2d064fe1864c37cdeacb7b2dcf25b"
+  integrity sha512-pJEdRugimx4fBMra5z2/5iRdZ63OhYV0vr0Dwm5+xtW4D1FvRkB8hamMIhnWfyJeDdyr/aa7BDyNbtG38VxgoQ==
+
 is-dotfile@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.3.tgz#a6a2f32ffd2dfb04f5ca25ecd0f6b83cf798a1e1"
@@ -6459,6 +6464,11 @@ parse-json@^5.0.0:
     json-parse-better-errors "^1.0.1"
     lines-and-columns "^1.1.6"
 
+parse-ms@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/parse-ms/-/parse-ms-2.1.0.tgz#348565a753d4391fa524029956b172cb7753097d"
+  integrity sha512-kHt7kzLoS9VBZfUsiKjv43mr91ea+U05EyKkEtqp7vNbHxmaVuEqN7XxeEVnGrMtYOAxGrDElSi96K7EgO1zCA==
+
 pascalcase@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
@@ -6591,6 +6601,13 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
   integrity sha1-gV7R9uvGWSb4ZbMQwHE7yzMVzks=
+
+pretty-ms@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/pretty-ms/-/pretty-ms-6.0.1.tgz#03ec6cfee20329f142645e63efad96bb775d3da4"
+  integrity sha512-ke4njoVmlotekHlHyCZ3wI/c5AMT8peuHs8rKJqekj/oR5G8lND2dVpicFlUz5cbZgE290vvkMuDwfj/OcW1kw==
+  dependencies:
+    parse-ms "^2.1.0"
 
 prism-media@^1.2.0:
   version "1.2.1"

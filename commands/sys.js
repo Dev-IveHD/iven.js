@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const os = require('os');
+const prettyMS = require('pretty-ms');
+const isDocker = require('is-docker');
 
 module.exports.run = (_bot, msg) => {
   const infoEmbed = new Discord.MessageEmbed()
@@ -11,12 +13,18 @@ module.exports.run = (_bot, msg) => {
       'https://upload.wikimedia.org/wikipedia/commons/e/ed/Elon_Musk_Royal_Society.jpg',
     )
     .addFields(
-      { name: 'Platform', value: os.platform() },
+      {
+        name: 'Platform',
+        value: os.platform() + (isDocker() ? ' dockerized' : ' vanilla'),
+      },
       { name: 'Architecture', value: os.arch() },
       { name: 'Hostname', value: os.hostname() },
-      { name: 'Memory', value: Math.floor(os.totalmem() / 10e8) + 'GB' },
+      {
+        name: 'Memory',
+        value: (os.totalmem() / 10e8).toFixed(2) + 'GB',
+      },
       { name: 'CPU Cores', value: os.cpus().length + ' Cores' },
-      { name: 'Uptime', value: os.uptime() + 's' },
+      { name: 'Uptime', value: prettyMS(os.uptime() * 1000) },
     )
     .setTimestamp();
 
