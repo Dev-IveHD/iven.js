@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const os = require('os');
+const prettyMS = require('pretty-ms');
 const isDocker = require('is-docker');
 
 module.exports.run = (_bot, msg) => {
@@ -23,7 +24,7 @@ module.exports.run = (_bot, msg) => {
         value: (os.totalmem() / 10e8).toFixed(2) + 'GB',
       },
       { name: 'CPU Cores', value: os.cpus().length + ' Cores' },
-      { name: 'Uptime', value: os.uptime() + 's' },
+      { name: 'Uptime', value: prettyMS(os.uptime() * 1000) },
     )
     .setTimestamp();
 
