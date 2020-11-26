@@ -45,7 +45,7 @@
     "babel-plugin-add-module-exports": "1.0.2",
     "babel-plugin-transform-replace-object-assign": "2.0.0",
     "babel-preset-env": "1.7.0",
-    "conventional-changelog-eslint": "3.0.4",
+    "conventional-changelog-eslint": "3.0.9",
     "cz-adapter-eslint": "0.3.0",
     "eslint": "6.8.0",
     "eslint-config-airbnb": "18.1.0",
